@@ -1,4 +1,8 @@
 [core]
-    remote = gdrive-storage
-['remote "gdrive-storage"']
+    remote = mygdrive
+['remote "dvc google"']
+    url = ../1sF6OiyuFTInAP1Rc4A-K65Ovd4T1rmzD
+['remote "mygdrive"']
     url = gdrive://1sF6OiyuFTInAP1Rc4A-K65Ovd4T1rmzD
+    gdrive_client_id = 92418864442-nnkfi5buaincs2r85ecg9n1i7n0mh8im.apps.googleusercontent.com
+    gdrive_client_secret = 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
