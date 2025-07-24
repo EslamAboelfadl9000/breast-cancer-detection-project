@@ -194,3 +194,6 @@ cython_debug/
 .cursorindexingignore
 
 \grand-song-464117-h9-bb52f8b24442.json
+
+# Ignore the CBIS-DDSM dataset folder
+data/raw/CBIS-DDSM/
