@@ -3,7 +3,14 @@ Preprocessing library to generate dataframes
 useable for model training
 
 Author: Rohan
-Stand: 22/07/2025
+Stand: 31/07/2025
+
+Version 2:
+Notes: 
+
+* ROI_image_finder changed to make sure the 
+masks are selected based on grayscale values-
+
 """
 
 
@@ -80,12 +87,22 @@ class Extractor:
         df_mod = df.drop(df.columns.difference(col_names),axis=1)
         return df_mod
     
+    """
     def ROI_image_finder(self,folder):
         try:
             for name in os.listdir(folder):
                 if name.split("-")[0]=="2":
                     return os.path.join(folder,name)
             return None
+        except FileNotFoundError:
+            return None
+    """    
+    def ROI_image_finder(self,folder):
+        iterator = {}
+        try:
+            for name in os.listdir(folder):
+                iterator[name]=len(np.unique(Image.open(os.path.join(folder,name))))
+            return os.path.join(folder,min(iterator,key=iterator.get))
         except FileNotFoundError:
             return None
 
