@@ -65,9 +65,17 @@ class DataFilter:
         merged_df = pd.merge(merged_df, path_finder_maps['cropped'].rename(columns={'image_path': 'cropped_image_path'}), left_on='cropped_image_SeriesUID', right_on='SeriesInstanceUID', how='left').drop(columns=['SeriesInstanceUID'])
         merged_df = pd.merge(merged_df, path_finder_maps['roi'].rename(columns={'image_path': 'roi_path'}), left_on='roi_mask_SeriesUID', right_on='SeriesInstanceUID', how='left').drop(columns=['SeriesInstanceUID'])
 
-        final_cols = ['patient_id', 'abnormality_type', 'simple_pathology', 'full_image_path', 'cropped_image_path', 'roi_path']
+        final_cols = ['patient_id','SeriesInstanceUID', 'abnormality id', 'abnormality_type', 'left or right breast', 'image view', 'breast_density', 
+            'pathology', 'simple_pathology', 'assessment', 'subtlety',
+            'mass shape', 'mass margins',
+            'calc type', 'calc distribution', 'full_image_path', 'cropped_image_path', 'roi_path']
         merged_df.dropna(subset=['full_image_path', 'roi_path'], inplace=True)
-        final_df = merged_df[final_cols].copy().drop_duplicates()
+
+        # --- THE FIX IS HERE ---
+        # Instead of failing, this will only select the columns from final_cols that exist in merged_df
+        existing_cols = [col for col in final_cols if col in merged_df.columns]
+        final_df = merged_df[existing_cols].copy().drop_duplicates()
+
 
         if is_test_set:
             final_df['split'] = 'test'
